@@ -1,0 +1,228 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif; /* Default font */
+  background-color: #f4f4f4;
+}
+
+/* Navbar */
+.navbar {
+  font-family: "Playfair Display", serif;
+  font-size: 20px;
+  line-height: 26px;
+  box-shadow: 0 6px 8px -6px gray;
+  border-bottom: 0.1px solid gray !important;
+}
+
+.navlink {
+  font-weight: 300 !important;
+}
+
+.active {
+  border-bottom: 2px solid black;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Footer */
+.footer {
+  color: white;
+  padding: 25px;
+  background: #293b79;
+  text-align: center;
+  position: relative;
+  width: 100%;
+  bottom: 0;
+}
+
+.footer a:hover {
+  color: beige;
+  border-bottom: 1px solid beige;
+}
+
+/* Page Not Found (PNF) */
+.pnf {
+  display: flex;
+  min-height: 65vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.pnf-title {
+  font-size: 100px;
+  font-weight: 700;
+  color: #293b79;
+}
+
+.pnf-heading {
+  font-weight: normal;
+  color: #293b79;
+}
+
+.pnf-btn {
+  color: #293b79;
+  border: 1px solid #293b79;
+  text-decoration: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+}
+
+.pnf-btn:hover {
+  background-color: #293b79;
+  color: white;
+}
+
+/* Contact Us Page */
+.contactus {
+  margin: 0;
+  padding: 0;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-custom {
+  background-color: #293b79;
+  font-family: "Playfair Display", serif;
+}
+
+/* Product Link */
+.product-link {
+  text-decoration: none !important;
+  color: #293b79 !important;
+}
+
+/* Category Button */
+.cat-btn {
+  padding: 40px 0;
+  font-size: 24px;
+  text-transform: uppercase;
+}
+
+.cat-btn:hover {
+  background-color: #434343;
+  color: white;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .navbar {
+    font-size: 16px;
+  }
+
+  .pnf-title {
+    font-size: 60px;
+  }
+
+  .contactus {
+    height: auto;
+  }
+
+  .contactus img {
+    max-width: 90%;
+  }
+
+  .footer {
+    font-size: 14px;
+    padding: 15px;
+  }
+}
+
+/* About Us page */
+.about-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.about-image {
+  width: 100%;
+  height: auto;
+  max-width: 800px;
+}
+
+.about-content {
+  padding: 20px;
+  text-align: left;
+  max-width: 800px;
+}
+
+.about-content h1, .about-content h3 {
+  margin-top: 20px;
+  color: #293b79;
+  font-family: "Playfair Display", serif;
+}
+
+.about-content ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.about-content ul li {
+  margin-bottom: 10px;
+}
+
+.about-footer {
+  text-align: center;
+  margin-top: 30px;
+}
+
+/* Policy Page Styles */
+.policy-container {
+  padding: 20px;
+  margin-top: 30px;
+}
+
+.policy-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.policy-content h3 {
+  margin-top: 30px;
+  font-size: 24px;
+  color: #293b79;
+  font-family: "Playfair Display", serif;
+}
+
+.policy-content p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.policy-content ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.policy-content ul li {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.policy-footer {
+  margin-top: 30px;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .policy-container {
+    padding: 15px;
+  }
+  .policy-content {
+    padding: 10px;
+  }
+}
