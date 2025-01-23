@@ -3,7 +3,7 @@ import Layout from '../components/Layout/Layout'
 
 const HomePage = () => {
   return (
-    <Layout>
+    <Layout title={"Home Page - Printify"}>
         <h1>HomePage</h1>
     </Layout>
   )
