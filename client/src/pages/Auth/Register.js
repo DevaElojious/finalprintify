@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { toast } from "react-hot-toast";
 import { useNavigate } from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
+import "../../styles/AuthStyles.css";
 
 const Register = () => {
     const [name, setName] = useState("");
@@ -16,12 +17,12 @@ const Register = () => {
     const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:3000/api/v1/auth/register', {
-        name: name.trim(),
-      email: email.trim(),
+      const res = await axios.post('http://localhost:5000/api/v1/auth/register', {
+        name: name,
+      email: email,
       password,
-      phone: phone.trim(),
-      address: address.trim()}); 
+      phone: phone,
+      address: address}); 
         
         if (res.data.success){
             toast.success(res.data.message)
@@ -37,8 +38,8 @@ const Register = () => {
 
   return (
     <Layout title="Register - Printify">
-    <div className='register'>
-        <h1>Register</h1>
+    <div className='form-container'>
+        <h1>Register Form</h1>
         <form onSubmit={handleSubmit}>
             <div className="mb-3">
                 <label htmlFor="exampleInputName" className="form-label">Name</label>
