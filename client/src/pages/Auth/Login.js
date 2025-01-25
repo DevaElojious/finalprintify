@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { toast } from "react-hot-toast";
 import { useNavigate } from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
-import "../../styles/AuthStyles.css";
 import { useAuth } from "../../context/auth";
+import "../../styles/AuthStyles.css";
 
 const Login = () => {
         const [email, setEmail] = useState("");
