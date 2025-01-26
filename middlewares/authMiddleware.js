@@ -3,18 +3,18 @@ import userModel from '../models/userModel.js';
 
 //from here we'll protect the user (toke based)
 // with the help of next, we will authenticate the user.
-export const requireSignIn = async(req, res, next) => {
+export const requireSignIn = async (req, res, next) => {
     try {
-        const decode = JWT.verify(
-            req.headers.authorization, 
-            process.env.JWT_SECRET
-        );
-        req.user = decode;
-        next();
+      const decode = JWT.verify(
+        req.headers.authorization,
+        process.env.JWT_SECRET
+      );
+      req.user = decode;
+      next();
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-}
+  };
 
 // admin access
 export const isAdmin = async(req, res, next) => {

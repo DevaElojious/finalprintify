@@ -11,6 +11,7 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
+    const [answer, setAnswer] = useState("");
     const navigate = useNavigate();
 
     // form function
@@ -19,10 +20,11 @@ const Register = () => {
     try {
       const res = await axios.post('http://localhost:5000/api/v1/auth/register', {
         name: name,
-      email: email,
-      password,
-      phone: phone,
-      address: address}); 
+        email: email,
+        password,
+        phone: phone,
+        address: address,
+        answer }); 
         
         if (res.data.success){
             toast.success(res.data.message)
@@ -55,11 +57,15 @@ const Register = () => {
             </div>
             <div className="mb-3">
                 <label htmlFor="exampleInputName" className="form-label">Phone</label>
-                <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} className="form-control" id="exampleInputName" placeholder="Enter Phone no." required/>
+                <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} className="form-control" id="exampleInputPhone" placeholder="Enter Phone no." required/>
             </div>
             <div className="mb-3">
                 <label htmlFor="exampleInputName" className="form-label">Address</label>
-                <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} className="form-control" id="exampleInputName" placeholder="Enter your Address" required/>
+                <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} className="form-control" id="exampleInputAddress" placeholder="Enter your Address" required/>
+            </div>
+            <div className="mb-3">
+                <label htmlFor="exampleInputName" className="form-label">What is your favourite sport?</label>
+                <input type="text" value={answer} onChange={(e) => setAnswer(e.target.value)} className="form-control" id="exampleInputAnswer" placeholder="Enter your Answer" required/>
             </div>
             <button type="submit" className="btn btn-primary">Submit</button>
         </form>

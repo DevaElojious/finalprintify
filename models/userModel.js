@@ -45,6 +45,10 @@ const userSchema = new mongoose.Schema({
         minlength: [10, "Address must be at least 10 characters long"], // Minimum length validation
         maxlength: [200, "Address cannot exceed 200 characters"], // Maximum length validation
     },
+    answer: {
+        type: String,
+        required: true,
+    },
     role:{
         type: Number,
         default:0
