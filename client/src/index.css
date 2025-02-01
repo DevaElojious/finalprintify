@@ -231,3 +231,12 @@ body {
   }
 }
 
+/* for product */
+.product-link {
+  text-decoration: none !important;
+  color: black !important;
+}
+
+.custom-card-width {
+  width: 700px;
+}
