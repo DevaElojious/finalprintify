@@ -20,6 +20,17 @@ body {
   border-bottom: 0.1px solid gray !important;
 }
 
+.custom-badge {
+  transform: translateY(16%); 
+}
+
+.nav-link-cart {
+  font-family: "Playfair Display", serif;
+  font-size: 20px;
+  display: inline-flex;
+  align-items: center;
+  top: 25px;
+}
 .navlink {
   font-weight: 300 !important;
 }
@@ -240,3 +251,10 @@ body {
 .custom-card-width {
   width: 700px;
 }
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+

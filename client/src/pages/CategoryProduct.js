@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Layout from "../components/Layout/Layout";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useCart } from "../context/cart";
+import toast from "react-hot-toast";
+
 const CategoryProduct = () => {
+  const [cart, setCart] = useCart();
   const params = useParams();
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState([]);
 
-  useEffect(() => {
-    if (params?.slug) getProductsByCat();
-  }, [params?.slug]);
-  const getProductsByCat = async () => {
+  const getProductsByCat = useCallback(async () => {
     try {
       const { data } = await axios.get(
         `http://localhost:5000/api/v1/product/product-category/${params.slug}`
@@ -19,9 +20,15 @@ const CategoryProduct = () => {
       setProducts(data?.products);
       setCategory(data?.category);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
-  };
+  }, [params?.slug]);
+
+  useEffect(() => {
+    if (params?.slug) {
+      getProductsByCat();
+    }
+  }, [params?.slug, getProductsByCat]);
 
   return (
     <Layout>
@@ -54,26 +61,23 @@ const CategoryProduct = () => {
                     >
                       More Details
                     </button>
-                    <button className="btn btn-secondary ms-1">
+                    <button
+                      className="btn btn-secondary ms-1"
+                      onClick={() => {
+                        setCart([...cart, p]);
+                        localStorage.setItem(
+                          "cart",
+                          JSON.stringify([...cart, p])
+                        );
+                        toast.success("Item Added to Cart");
+                      }}
+                    >
                       ADD TO CART
                     </button>
                   </div>
                 </div>
               ))}
             </div>
-            {/* <div className="m-2 p-3">
-            {products && products.length < total && (
-              <button
-                className="btn btn-warning"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setPage(page + 1);
-                }}
-              >
-                {loading ? "Loading ..." : "Loadmore"}
-              </button>
-            )}
-          </div> */}
           </div>
         </div>
       </div>

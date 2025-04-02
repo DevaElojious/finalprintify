@@ -1,13 +1,17 @@
+import { Badge } from "antd";
 import React from 'react';
-import { NavLink , Link } from 'react-router-dom';
-import { GiShop } from "react-icons/gi";
-import { useAuth } from '../../context/auth';
 import toast from 'react-hot-toast';
-import SearchInput from "../Form/SearchInput";
+import { GiShop } from "react-icons/gi";
+import { TbMessageChatbotFilled } from "react-icons/tb";
+import { Link, NavLink } from 'react-router-dom';
+import { useAuth } from '../../context/auth';
+import { useCart } from '../../context/cart';
 import useCategory from '../../hooks/useCategory';
+import SearchInput from "../Form/SearchInput";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
+  const [cart] = useCart();
   const categories = useCategory();
 
   const handleLogout = () => {
@@ -79,7 +83,14 @@ const Header = () => {
                 </>)
               }
               <li className="nav-item">
-                <NavLink to="/cart" className="nav-link" href="#">Cart(0)</NavLink>
+              <Badge count={cart?.length} showZero className="custom-badge">
+                <NavLink to="/cart" className="nav-link nav-link-cart">
+                  Cart
+                </NavLink>
+              </Badge>
+              </li>
+              <li className="nav-item">
+                <NavLink to="/chatbot" className="nav-link "><TbMessageChatbotFilled size={24}/></NavLink>
               </li>
             </ul>
           </div>

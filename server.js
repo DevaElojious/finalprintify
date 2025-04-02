@@ -1,3 +1,4 @@
+import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from "dotenv";
 import express from "express";
@@ -5,8 +6,9 @@ import morgan from 'morgan';
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoute.js";
 import categoryRoutes from './routes/categoryRoutes.js';
+import openAiRoutes from "./routes/openAiRoutes.js";
 import productRoutes from './routes/productRoutes.js';
-import colors from 'colors';
+import colors from "colors";
 
 // configure env
 dotenv.config();
@@ -19,11 +21,13 @@ const app = express();
 
 // middleware
 app.use(cors())
+app.use(bodyParser.urlencoded({extended: false}))
 app.use(express.json({ limit: '50mb' }))
 app.use(morgan('dev'))
 
 // routes
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/openai', openAiRoutes);
 app.use('/api/v1/category', categoryRoutes);
 app.use('/api/v1/product', productRoutes);
 

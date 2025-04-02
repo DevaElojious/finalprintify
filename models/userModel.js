@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
         ], // Regular expression for phone number validation
     },
     address:{
-        type: String,
+        type: {},
         required: true, 
         minlength: [10, "Address must be at least 10 characters long"], // Minimum length validation
         maxlength: [200, "Address cannot exceed 200 characters"], // Maximum length validation
