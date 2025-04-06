@@ -4,25 +4,18 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const PaymentQR = () => {
-  const [step, setStep] = useState(1); // Tracks the step (1: QR Code, 2: Payment Details)
-  const [paymentDetails, setPaymentDetails] = useState({
-    transactionId: "",
-    screenshot: null,
-  });
+  const [step, setStep] = useState(1); // Tracks the step
   const navigate = useNavigate();
 
-  const handleDetailsSubmit = (e) => {
-    e.preventDefault();
-
-    // Validation
-    if (!paymentDetails.transactionId || !paymentDetails.screenshot) {
-      toast.error("Please provide both transaction ID and screenshot!");
-      return;
+  // Temporary version: no cart, just confirm and redirect
+  const handleConfirmPayment = () => {
+    try {
+      toast.success("Payment confirmed! Redirecting to your orders...");
+      navigate("/dashboard/user/orders");
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong.");
     }
-
-    // Simulate form submission
-    toast.success("Payment details submitted! Pending verification.");
-    setStep(3); // Go to step 3 (Verification)
   };
 
   return (
@@ -41,7 +34,7 @@ const PaymentQR = () => {
             <br />
             <button
               className="btn btn-primary mt-3"
-              onClick={() => setStep(2)} // Proceed to Step 2
+              onClick={() => setStep(2)} // Proceed to step 2
             >
               I Have Paid
             </button>
@@ -51,63 +44,26 @@ const PaymentQR = () => {
         {step === 2 && (
           <>
             <h2>Submit Payment Details</h2>
-            <p>Please provide the following payment details to verify your transaction:</p>
-            <form onSubmit={handleDetailsSubmit}>
-              <div className="mb-3">
-                <label htmlFor="transactionId" className="form-label">
-                  Transaction ID / Reference Number
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="transactionId"
-                  value={paymentDetails.transactionId}
-                  onChange={(e) =>
-                    setPaymentDetails({
-                      ...paymentDetails,
-                      transactionId: e.target.value,
-                    })
-                  }
-                  required
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="screenshot" className="form-label">
-                  Upload Payment Screenshot
-                </label>
-                <input
-                  type="file"
-                  className="form-control"
-                  id="screenshot"
-                  accept="image/*"
-                  onChange={(e) =>
-                    setPaymentDetails({
-                      ...paymentDetails,
-                      screenshot: e.target.files[0],
-                    })
-                  }
-                  required
-                />
-              </div>
-              <button type="submit" className="btn btn-success">
-                Submit Payment Details
-              </button>
-            </form>
-          </>
-        )}
-
-        {step === 3 && (
-          <>
-            <h2>Payment Under Verification</h2>
             <p>
-              Your payment details have been submitted and are currently under verification.
-              You will be notified once the process is complete.
+              Please fill this Google Form to submit your transaction ID and screenshot:
+            </p>
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSe1FFw23Y2q__KL3Fb7Lyij9ZeRAidStGeDjOX3AfQ6TXtHEA/viewform?usp=header"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-outline-primary"
+            >
+              Fill Google Form
+            </a>
+
+            <p className="mt-4">
+              After submitting the form, click the button below to confirm and proceed.
             </p>
             <button
-              className="btn btn-primary mt-3"
-              onClick={() => navigate("/dashboard/user/orders")} // Redirect to the orders page
+              className="btn btn-success"
+              onClick={handleConfirmPayment}
             >
-              Go to Orders
+              I Have Filled the Form
             </button>
           </>
         )}

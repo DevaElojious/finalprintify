@@ -26,6 +26,9 @@ import Search from "./pages/Search";
 import Dashboard from "./pages/user/Dashboard";
 import Orders from "./pages/user/Orders";
 import Profile from "./pages/user/Profile";
+import FAQPage from "./pages/FAQPage";
+import AllProducts from "./pages/AllProducts";
+
 
 function App() {
   return (
@@ -33,9 +36,11 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/all-products" element={<AllProducts />} />
         <Route path="/product/:slug" element={<ProductDetails />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/faq" element={<FAQPage />} />
         <Route path="/category/:slug" element={<CategoryProduct />} />
         <Route path="/search" element={<Search />} />
         <Route path="/payment-qr" element={<PaymentQR />} />

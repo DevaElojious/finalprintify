@@ -35,6 +35,10 @@ const Header = () => {
               <li className="nav-item">
                 <NavLink to="/" className="nav-link ">Home</NavLink>
               </li>
+              <NavLink to="/all-products" className="nav-link">
+                All Products
+              </NavLink>
+
               <li className="nav-item dropdown">
                 <Link
                   className="nav-link dropdown-toggle"
@@ -89,6 +93,11 @@ const Header = () => {
                 </NavLink>
               </Badge>
               </li>
+              <li>
+                <Link to="/faq" className="hover:text-black-600 font-medium">FAQ</Link>
+              </li>
+
+
               <li className="nav-item">
                 <NavLink to="/chatbot" className="nav-link "><TbMessageChatbotFilled size={24}/></NavLink>
               </li>

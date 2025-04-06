@@ -1,4 +1,7 @@
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import React from "react";
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth";
 import { useCart } from "../context/cart";
@@ -23,11 +26,50 @@ const CartPage = () => {
     let updatedCart = cart.filter((item) => item._id !== pid);
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
+    toast.success("Item removed from cart");
   };
 
-  // Handle payment
+  // Directly proceed to payment
   const handlePayment = () => {
-    navigate("/payment-qr"); // Redirect to the QR code page
+    if (!auth?.token) {
+      return navigate("/login");
+    }
+
+    toast.success("Proceeding to payment...");
+    navigate("/payment-qr");
+  };
+
+  // Generate invoice PDF
+  const generateInvoice = () => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text("Printify Invoice", 14, 20);
+
+    doc.setFontSize(12);
+    doc.text(`Customer: ${auth?.user?.name || "Guest"}`, 14, 30);
+    doc.text(`Address: ${auth?.user?.address || "N/A"}`, 14, 36);
+    doc.text(`Email: ${auth?.user?.email || "N/A"}`, 14, 42);
+
+    const tableColumn = ["Product", "Qty", "Price (in Rs.)", "Total (in Rs.)"];
+    const tableRows = cart.map((item) => [
+      item.name,
+      "1",
+      item.price,
+      item.price,
+    ]);
+
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: 50,
+    });
+
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    doc.text(`Grand Total: Rs.${total}`, 14, doc.lastAutoTable.finalY + 10);
+
+    doc.save("invoice.pdf");
+    toast.success("Invoice downloaded successfully!");
   };
 
   return (
@@ -38,7 +80,9 @@ const CartPage = () => {
         </h1>
         <h4 className="text-center">
           {cart.length
-            ? `You have ${cart.length} item(s) in your cart ${auth?.token ? "" : "please login to checkout"}`
+            ? `You have ${cart.length} item(s) in your cart ${
+                auth?.token ? "" : "please login to checkout"
+              }`
             : "Your Cart is Empty"}
         </h4>
 
@@ -60,7 +104,10 @@ const CartPage = () => {
                   <p>{p.name}</p>
                   <p>{p.description}</p>
                   <p>Price: ₹{p.price}</p>
-                  <button className="btn btn-danger" onClick={() => removeCartItem(p._id)}>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => removeCartItem(p._id)}
+                  >
                     Remove
                   </button>
                 </div>
@@ -78,18 +125,27 @@ const CartPage = () => {
               <div className="mb-3">
                 <h4>Current Address</h4>
                 <h5>{auth.user.address}</h5>
-                <button className="btn btn-outline-warning" onClick={() => navigate("/dashboard/user/profile")}>
+                <button
+                  className="btn btn-outline-warning"
+                  onClick={() => navigate("/dashboard/user/profile")}
+                >
                   Update Address
                 </button>
               </div>
             ) : (
               <div className="mb-3">
                 {auth?.token ? (
-                  <button className="btn btn-outline-warning" onClick={() => navigate("/dashboard/user/profile")}>
+                  <button
+                    className="btn btn-outline-warning"
+                    onClick={() => navigate("/dashboard/user/profile")}
+                  >
                     Update Address
                   </button>
                 ) : (
-                  <button className="btn btn-outline-warning" onClick={() => navigate("/login", { state: "/cart" })}>
+                  <button
+                    className="btn btn-outline-warning"
+                    onClick={() => navigate("/login", { state: "/cart" })}
+                  >
                     Please Login to checkout
                   </button>
                 )}
@@ -97,14 +153,16 @@ const CartPage = () => {
             )}
 
             {/* QR Code Payment */}
-            <div className="mt-2">
+            <div className="mt-4 d-grid gap-2">
               {cart.length > 0 ? (
-                <button
-                  className="btn btn-primary"
-                  onClick={handlePayment}
-                >
-                  Proceed to Payment
-                </button>
+                <>
+                  <button className="btn btn-success" onClick={generateInvoice}>
+                    Download Invoice PDF
+                  </button>
+                  <button className="btn btn-primary" onClick={handlePayment}>
+                    Proceed to Payment
+                  </button>
+                </>
               ) : (
                 <p>Add items to your cart to proceed.</p>
               )}

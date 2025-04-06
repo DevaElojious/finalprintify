@@ -3,23 +3,21 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCart } from "../context/cart";
+import { useAuth } from "../context/auth"; // Import auth context
 import Layout from "./../components/Layout/Layout";
-
-const ProductDetails = () => {
+   
+  const ProductDetails = () => {
   const [cart, setCart] = useCart();
+  const [auth] = useAuth();
   const params = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
   const [relatedProducts, setRelatedProducts] = useState([]);
 
-  // Initial details
   useEffect(() => {
-    if (params?.slug) {
-      getProduct();
-    }
+    if (params?.slug) getProduct();
   }, [params?.slug]);
 
-  // Fetch product details
   const getProduct = async () => {
     try {
       const { data } = await axios.get(
@@ -27,14 +25,13 @@ const ProductDetails = () => {
       );
       if (data?.product) {
         setProduct(data.product);
-        getSimilarProduct(data.product._id, data.product.category?._id); // Ensure category._id exists
+        getSimilarProduct(data.product._id, data.product.category?._id);
       }
     } catch (error) {
-      console.error("Error fetching product:", error); // Use console.error for better visibility
+      console.error("Error fetching product:", error);
     }
   };
 
-  // Fetch similar products
   const getSimilarProduct = async (pid, cid) => {
     try {
       const { data } = await axios.get(
@@ -48,12 +45,29 @@ const ProductDetails = () => {
     }
   };
 
-  // Add product to cart
-  const addToCart = (item) => {
-    setCart([...cart, item]); // Add specific item to the cart
-    localStorage.setItem("cart", JSON.stringify([...cart, item]));
-    toast.success(`${item.name} added to cart!`); // Display success message with product name
-  };
+  const addToCart = async (item) => {
+       setCart([...cart, item]);
+       localStorage.setItem("cart", JSON.stringify([...cart, item]));
+       toast.success(`${item.name} added to cart!`);
+       // Save to backend MongoDB
+       try {
+           const res = await fetch("http://localhost:5000/api/v1/cart/add", {
+               method: "POST",
+               headers: {
+                   "Content-Type": "application/json",
+                   Authorization: `Bearer ${auth?.token}`, // Ensure auth?.token is available
+               },
+               body: JSON.stringify({ productId: item._id }), // Send only productId [cite: 270]
+           });
+           const data = await res.json();
+           if (!data.success) {
+               toast.error("Could not save cart to server");
+           }
+       } catch (err) {
+           console.error("Error saving cart:", err);
+           toast.error("Error saving cart to server");
+       }
+   };
 
   return (
     <Layout>
